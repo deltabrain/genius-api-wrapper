@@ -3,7 +3,7 @@ export type Song = {
 	artist: string
 	title: string
 	url: string
-	lyrics?: string[] | null
+	lyrics?: string | string[] | null
 }
 
 export type Artist = {
