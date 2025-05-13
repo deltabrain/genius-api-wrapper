@@ -38,6 +38,7 @@ export class Genius {
 		const songs: Song[] = []
 		var nextPageExists = true
 		var page = 1
+		var skippedSongs = 0
 
 		while (nextPageExists == true) {
 			const reqUrl = `${this.artistSearchUrl}${artist}/songs?per_page=50&page=${page}&access_token=${this.apiKey}`
@@ -58,7 +59,7 @@ export class Genius {
 				for (const term of this.excludedTerms) {
 					if (song.title.toLowerCase().includes(term)) {
 						shouldSkip = true
-						console.log(song.title + ' containes excluded term. Skipping...')
+						skippedSongs++
 					}
 				}
 
@@ -76,6 +77,8 @@ export class Genius {
 			page++
 		}
 
+		console.log(songs.length + ' songs found!')
+		console.log(skippedSongs + ' songs have been skipped!')
 		return songs
 	}
 
