@@ -64,11 +64,18 @@ export class Genius {
 				}
 
 				if (!shouldSkip) {
-					const { id, primary_artist_names, title_with_featured, url } = song
+					const {
+						id,
+						primary_artist_names,
+						release_date,
+						title_with_featured,
+						url,
+					} = song
 					songs.push({
 						id,
 						artist: primary_artist_names,
 						title: title_with_featured,
+						release_date,
 						url,
 					})
 				}
@@ -78,7 +85,6 @@ export class Genius {
 		}
 
 		console.log(songs.length + ' songs found!')
-		console.log(skippedSongs + ' songs have been skipped!')
 		return songs
 	}
 
@@ -91,10 +97,16 @@ export class Genius {
 
 		if (data.length === 0) throw 'Invalid Song Id'
 
-		const { id, primary_artist_names, title_with_featured, url } =
+		const { id, primary_artist_names, release_date, title_with_featured, url } =
 			data.response.song
 
-		return { id, artist: primary_artist_names, title: title_with_featured, url }
+		return {
+			id,
+			artist: primary_artist_names,
+			release_date,
+			title: title_with_featured,
+			url,
+		}
 	}
 
 	async getSong(title: string, artist: string): Promise<Song | string> {
@@ -106,13 +118,19 @@ export class Genius {
 
 		if (data.response.hits.length === 0) return 'Could not find song'
 
-		const { id, primary_artist_names, title_with_featured, url } =
+		const { id, primary_artist_names, release_date, title_with_featured, url } =
 			data.response.hits[0].result
 
-		return { id, artist: primary_artist_names, title: title_with_featured, url }
+		return {
+			id,
+			artist: primary_artist_names,
+			release_date,
+			title: title_with_featured,
+			url,
+		}
 	}
 
-	async getLyrics(url: string) {
+	async getLyrics(url: string): Promise<string> {
 		const lyrics = await extractLyrics(url).then((res) => {
 			return res
 		})
