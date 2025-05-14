@@ -71,13 +71,23 @@ export class Genius {
 						title_with_featured,
 						url,
 					} = song
-					songs.push({
-						id,
-						artist: primary_artist_names,
-						title: title_with_featured,
-						release_year: release_date_components.year,
-						url,
-					})
+					if (release_date_components != null) {
+						songs.push({
+							id,
+							artist: primary_artist_names,
+							title: title_with_featured,
+							release_year: release_date_components.year,
+							url,
+						})
+					} else {
+						songs.push({
+							id,
+							artist: primary_artist_names,
+							title: title_with_featured,
+							release_year: null,
+							url,
+						})
+					}
 				}
 			}
 
@@ -99,13 +109,22 @@ export class Genius {
 
 		const { id, primary_artist_names, release_date, title_with_featured, url } =
 			data.response.song
-
-		return {
-			id,
-			artist: primary_artist_names,
-			release_year: release_date.slice(0, 4),
-			title: title_with_featured,
-			url,
+		if (release_date != null) {
+			return {
+				id,
+				artist: primary_artist_names,
+				release_year: release_date.slice(0, 4),
+				title: title_with_featured,
+				url,
+			}
+		} else {
+			return {
+				id,
+				artist: primary_artist_names,
+				release_year: null,
+				title: title_with_featured,
+				url,
+			}
 		}
 	}
 
@@ -126,12 +145,22 @@ export class Genius {
 			url,
 		} = data.response.hits[0].result
 
-		return {
-			id,
-			artist: primary_artist_names,
-			release_year: release_date_components.year,
-			title: title_with_featured,
-			url,
+		if (release_date_components != null) {
+			return {
+				id,
+				artist: primary_artist_names,
+				release_year: release_date_components.year,
+				title: title_with_featured,
+				url,
+			}
+		} else {
+			return {
+				id,
+				artist: primary_artist_names,
+				release_year: null,
+				title: title_with_featured,
+				url,
+			}
 		}
 	}
 
