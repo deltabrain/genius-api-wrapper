@@ -67,7 +67,7 @@ export class Genius {
 					const {
 						id,
 						primary_artist_names,
-						release_date,
+						release_date_components,
 						title_with_featured,
 						url,
 					} = song
@@ -75,7 +75,7 @@ export class Genius {
 						id,
 						artist: primary_artist_names,
 						title: title_with_featured,
-						release_date,
+						release_year: release_date_components.year,
 						url,
 					})
 				}
@@ -103,7 +103,7 @@ export class Genius {
 		return {
 			id,
 			artist: primary_artist_names,
-			release_date,
+			release_year: release_date.slice(0, 4),
 			title: title_with_featured,
 			url,
 		}
@@ -118,13 +118,18 @@ export class Genius {
 
 		if (data.response.hits.length === 0) return 'Could not find song'
 
-		const { id, primary_artist_names, release_date, title_with_featured, url } =
-			data.response.hits[0].result
+		const {
+			id,
+			primary_artist_names,
+			release_date_components,
+			title_with_featured,
+			url,
+		} = data.response.hits[0].result
 
 		return {
 			id,
 			artist: primary_artist_names,
-			release_date,
+			release_year: release_date_components.year,
 			title: title_with_featured,
 			url,
 		}
